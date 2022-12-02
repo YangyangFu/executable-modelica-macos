@@ -1,0 +1,31 @@
+## A jmodelica docker image in python 2: call this using "python2 script.py".
+FROM michaelwetter/ubuntu-1804_jmodelica_trunk
+
+USER root
+### ====================================================================================
+## install env
+RUN pip install \
+         matplotlib \
+         numpy \
+         pandas \
+         jinja2
+
+# COPY depdency from local to docker
+COPY ./dependency $MODELICAPATH
+
+# Define environment variable for mounted test
+# This should be updated if external Modelica library is tested in this docker
+RUN mkdir $HOME/modelica_test
+ENV MODELICATEST_PATH $HOME/modelica_test 
+ENV MODELICAPATH="${MODELICATEST_PATH}:${MODELICAPATH}"
+
+### ============================================
+# run as a user
+USER developer
+WORKDIR $HOME
+
+CMD [ "/bin/bash" ]
+# Avoid warning that Matplotlib is building the font cache using fc-list. This may take a moment.
+# This needs to be towards the end of the script as the command writes data to
+# /home/developer/.cache
+RUN python -c "import matplotlib.pyplot"
