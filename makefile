@@ -1,5 +1,5 @@
-USER_NAME = passivelogic
-IMA_NAME = benchmark
+USER_NAME = yangyangfu
+IMA_NAME = modelica
 TAG_JMODELICA = jmodelica 
 TAG_DYMOLA = dymola
 TAG_OMC = omc 
